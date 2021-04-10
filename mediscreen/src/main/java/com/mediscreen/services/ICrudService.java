@@ -1,5 +1,7 @@
 package com.mediscreen.services;
 
+import com.mediscreen.domain.Patient;
+
 import java.util.List;
 
 public interface ICrudService<T>  {
@@ -31,4 +33,5 @@ public interface ICrudService<T>  {
      * @param id object to delete
      */
     void delete(Integer id);
+
 }
