@@ -1,10 +1,10 @@
 package com.mediscreen.dto;
 
 import com.googlecode.jmapper.annotations.JGlobalMap;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Data
@@ -19,12 +19,16 @@ public class PatientDto {
     private String firstName;
 
     private LocalDate dob;
-
+    /**
+     * kind of person
+     * True = man
+     * False = women
+     */
     private Boolean sex;
 
-    @NotBlank(message="Adress is mandatory")
+    @NotBlank(message = "Adress is mandatory")
     private String address;
 
-    @NotBlank(message="Phone is required")
+    @NotBlank(message = "Phone is required")
     private String phone;
 }

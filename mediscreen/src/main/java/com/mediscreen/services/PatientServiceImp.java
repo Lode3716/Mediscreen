@@ -4,13 +4,16 @@ import com.googlecode.jmapper.JMapper;
 import com.mediscreen.domain.Patient;
 import com.mediscreen.dto.PatientDto;
 import com.mediscreen.repositories.IPatientRepository;
+import com.mediscreen.services.exceptions.PatientDtoAlreadyExistException;
 import com.mediscreen.services.exceptions.PatientDtoNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -28,9 +31,17 @@ public class PatientServiceImp implements IPatientService {
 
     @Override
     public PatientDto add(PatientDto patientDto) {
-        Patient patient = repository.save(patientUnJMapper.getDestination(patientDto));
-        log.info("Service : Patien is save in Bdd : {} ", patient.getId());
-        return patientJMapper.getDestination(patient);
+
+        if(existByPatientInformation(patientDto.getLastName(),patientDto.getFirstName(),patientDto.getDob()))
+        {
+            log.error("Service add not saved because : The patient with the information entered already exists");
+            throw new PatientDtoAlreadyExistException("The patient with the information entered already exists");
+        }else{
+            Patient patient = repository.save(patientUnJMapper.getDestination(patientDto));
+            log.info("Après : "+existByPatientInformation(patient.getLastName(),patient.getFirstName(),patient.getDob()));
+            log.info("Service : Patient is save in Bdd : {} ", patient.getId());
+            return patientJMapper.getDestination(patient);
+        }
     }
 
     /**
@@ -91,6 +102,18 @@ public class PatientServiceImp implements IPatientService {
     public Patient existById(Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new PatientDtoNotFoundException("There is no patient with this id " + id));
+    }
+
+    /**
+     * Check patient  is already exiting
+     * @param lastName Last name
+     * @param firstName Fisrt name
+     * @param dob Date of birthday
+     * @return true if exist
+     */
+    public Boolean existByPatientInformation(String lastName, String firstName, LocalDate dob) {
+        return Optional.ofNullable(repository.findByLastNameAndFirstNameAndDob(lastName,firstName,dob))
+                .isPresent();
     }
 
 }

@@ -3,6 +3,7 @@ package com.mediscreen.controllers;
 
 import com.mediscreen.dto.PatientDto;
 import com.mediscreen.services.IPatientService;
+import com.mediscreen.services.exceptions.PatientDtoAlreadyExistException;
 import com.mediscreen.services.exceptions.PatientDtoNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,20 @@ public class PatientContoller {
 
 
     /**
-     * New patientDto to add
+     * New patientDto to add if already exist is not saved
      *
      * @param patientDto to save
-     * @return patientDto when is create
+     * @return patientDto when is create else return Error
      */
     @PostMapping("/add")
     public ResponseEntity<PatientDto> addPatient(@RequestBody @Valid PatientDto patientDto) {
         log.info("POST : patient/add ");
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.add(patientDto));
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.add(patientDto));
+        } catch (PatientDtoAlreadyExistException patientDtoAlreadyExistException) {
+            log.error("Post : add patient Already exist : ", patientDtoAlreadyExistException.getMessage());
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
     /**
@@ -58,10 +64,10 @@ public class PatientContoller {
         log.info("PUT : /patient/{}", id);
         PatientDto update;
         try {
-            update= service.update(id, patientDto);
+            update = service.update(id, patientDto);
         } catch (PatientDtoNotFoundException patientDtoNotFoundException) {
             log.error("DELETE : /patient/{} - Not found : ", patientDtoNotFoundException.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND).;
         }
         log.info("PUT : /patient/{} - SUCCESS", id);
         return ResponseEntity.status(HttpStatus.OK).body(update);

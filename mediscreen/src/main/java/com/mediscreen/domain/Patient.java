@@ -36,6 +36,8 @@ public class Patient implements Serializable {
 
     /**
      * kind of person
+     * True = man
+     * False = women
      */
     @Column(name = "sex")
     private Boolean sex;
