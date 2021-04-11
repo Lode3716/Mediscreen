@@ -1,7 +1,9 @@
 package com.mediscreen.services.exceptions;
 
-import com.mediscreen.dto.PatientDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+@ResponseStatus(HttpStatus.CONFLICT)
 public class PatientDtoAlreadyExistException extends RuntimeException {
 
     public PatientDtoAlreadyExistException() {

@@ -53,4 +53,13 @@ public class Patient implements Serializable {
      */
     @Column(name = "phone")
     private String phone;
+
+    public Patient(String lastName, String firstName, LocalDate dob, Boolean sex, String address, String phone) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.dob = dob;
+        this.sex = sex;
+        this.address = address;
+        this.phone = phone;
+    }
 }

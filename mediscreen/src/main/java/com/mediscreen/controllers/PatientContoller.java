@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,8 +37,8 @@ public class PatientContoller {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.add(patientDto));
         } catch (PatientDtoAlreadyExistException patientDtoAlreadyExistException) {
-            log.error("Post : add patient Already exist : ", patientDtoAlreadyExistException.getMessage());
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            log.error("Post : add patient Already exist : {}", patientDtoAlreadyExistException.getMessage());
+            throw new ResponseStatusException(HttpStatus.CONFLICT,patientDtoAlreadyExistException.getMessage());
         }
     }
 
@@ -66,8 +67,8 @@ public class PatientContoller {
         try {
             update = service.update(id, patientDto);
         } catch (PatientDtoNotFoundException patientDtoNotFoundException) {
-            log.error("DELETE : /patient/{} - Not found : ", patientDtoNotFoundException.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND).;
+            log.error("DELETE : /patient/{} - Not found : {}", patientDtoNotFoundException.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         log.info("PUT : /patient/{} - SUCCESS", id);
         return ResponseEntity.status(HttpStatus.OK).body(update);
@@ -86,7 +87,7 @@ public class PatientContoller {
         try {
             service.delete(id);
         } catch (PatientDtoNotFoundException patientDtoNotFoundException) {
-            log.error("DELETE : /patient/{} - Not found", patientDtoNotFoundException.getMessage());
+            log.error("DELETE : /patient/{} - Not found : {}" , patientDtoNotFoundException.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         log.info("DELETE : /patient/{} - SUCCESS", id);

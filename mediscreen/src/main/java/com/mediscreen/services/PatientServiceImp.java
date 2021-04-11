@@ -46,7 +46,6 @@ public class PatientServiceImp implements IPatientService {
 
     /**
      * Find list Patient and Convert PatientDto
-     *
      * @return the list of PatientDto
      */
     @Override
@@ -63,7 +62,6 @@ public class PatientServiceImp implements IPatientService {
 
     /**
      * Check id exist, if valid update Patient
-     *
      * @param id
      * @param patientDto to update
      * @return the Patient update and converted the PatientDto
@@ -84,7 +82,6 @@ public class PatientServiceImp implements IPatientService {
 
     /**
      * Check id exist, if valid delete patient
-     *
      * @param id to delete
      */
     @Override
@@ -93,24 +90,13 @@ public class PatientServiceImp implements IPatientService {
         log.info("Service : delete patient id : {}", id);
     }
 
-    /**
-     * Find Patient By id
-     * @param id
-     * @return the Patient find or issue PatientDtoNotFoundException
-     */
     @Override
     public Patient existById(Integer id) {
         return repository.findById(id)
                 .orElseThrow(() -> new PatientDtoNotFoundException("There is no patient with this id " + id));
     }
 
-    /**
-     * Check patient  is already exiting
-     * @param lastName Last name
-     * @param firstName Fisrt name
-     * @param dob Date of birthday
-     * @return true if exist
-     */
+    @Override
     public Boolean existByPatientInformation(String lastName, String firstName, LocalDate dob) {
         return Optional.ofNullable(repository.findByLastNameAndFirstNameAndDob(lastName,firstName,dob))
                 .isPresent();
