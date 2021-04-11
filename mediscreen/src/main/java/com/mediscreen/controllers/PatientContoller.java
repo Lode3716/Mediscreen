@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Log4j2
@@ -61,14 +62,14 @@ public class PatientContoller {
      * @return patientDto when is update
      */
     @PutMapping("/{id}")
-    public ResponseEntity<PatientDto> updatePatient(@PathVariable("id") Integer id, @RequestBody @Valid PatientDto patientDto) {
+    public ResponseEntity<PatientDto> updatePatient(@PathVariable("id") @NotBlank Integer id, @RequestBody @Valid PatientDto patientDto) {
         log.info("PUT : /patient/{}", id);
         PatientDto update;
         try {
             update = service.update(id, patientDto);
         } catch (PatientDtoNotFoundException patientDtoNotFoundException) {
             log.error("DELETE : /patient/{} - Not found : {}", patientDtoNotFoundException.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,patientDtoNotFoundException.getMessage());
         }
         log.info("PUT : /patient/{} - SUCCESS", id);
         return ResponseEntity.status(HttpStatus.OK).body(update);
@@ -82,13 +83,13 @@ public class PatientContoller {
      * @return
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> patientDelete(@PathVariable("id") Integer id) {
+    public ResponseEntity<Void> patientDelete(@PathVariable("id") @NotBlank Integer id) {
         log.debug("DELETE : /patient/{}", id);
         try {
             service.delete(id);
         } catch (PatientDtoNotFoundException patientDtoNotFoundException) {
             log.error("DELETE : /patient/{} - Not found : {}" , patientDtoNotFoundException.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,patientDtoNotFoundException.getMessage());
         }
         log.info("DELETE : /patient/{} - SUCCESS", id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
