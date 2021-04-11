@@ -57,9 +57,9 @@ class PatientContollerIT {
         patientDto = new PatientDto("Gerard", "Corbien", LocalDate.of(1966, 12, 31), false, "Au club Dorothee 75000 Paris", "400-555-6666");
         patientDtoUpdate= new PatientDto("Benard", "Roger", LocalDate.of(1980, 12, 31), false, "Au club Dorothee 75550 Paris", "400-556-6666");
 
-        patientDtoFail = new PatientDto("", "", LocalDate.of(1966, 12, 31), false, "", "400-555-6666");
+        patientDtoFail = new PatientDto("", "","400-555-6666");
 
-        patient = new Patient(patientDto.getLastName(), patientDto.getFirstName(), patientDto.getDob(), patientDto.getSex(), patientDto.getAddress(), patientDto.getPhone());
+        patient = new Patient(patientDto.getLastName(), patientDto.getFirstName(), patientDto.getDob(), patientDto.getKind(), patientDto.getAddress(), patientDto.getPhone());
         patientUpdate=new Patient("Benard", "Roger", LocalDate.of(1980, 12, 31), false, "Au club Dorothee 75550 Paris", "400-556-6666");
     }
 
@@ -108,7 +108,8 @@ class PatientContollerIT {
                 .accept(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-                .andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("Adress is mandatory")
+                .andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("Kind is mandatory")
+                        && result.getResolvedException().getMessage().contains("Date of birthday is mandatory")
                         && result.getResolvedException().getMessage().contains("First name is mandatory")
                         && result.getResolvedException().getMessage().contains("Last name is mandatory")));
     }

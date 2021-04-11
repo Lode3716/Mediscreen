@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
@@ -30,26 +31,32 @@ public class PatientDto {
     @JsonFormat(pattern="yyyy-MM-dd")
     @JsonSerialize(using= LocalDateSerializer.class)
     @JsonDeserialize(using= LocalDateDeserializer.class)
+    @NotNull(message = "Date of birthday is mandatory")
     private LocalDate dob;
     /**
      * kind of person
      * True = man
      * False = women
      */
-    private Boolean sex;
+    @NotNull(message = "Kind is mandatory")
+    private Boolean kind;
 
-    @NotBlank(message = "Adress is mandatory")
     private String address;
 
-    @NotBlank(message = "Phone is required")
     private String phone;
 
-    public PatientDto(String lastName, String firstName, LocalDate dob, Boolean sex, String address, String phone) {
+    public PatientDto(String lastName, String firstName, LocalDate dob, Boolean kind, String address, String phone) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.dob = dob;
-        this.sex = sex;
+        this.kind = kind;
         this.address = address;
+        this.phone = phone;
+    }
+
+    public PatientDto(String lastName, String firstName, String phone) {
+        this.lastName = lastName;
+        this.firstName = firstName;
         this.phone = phone;
     }
 }

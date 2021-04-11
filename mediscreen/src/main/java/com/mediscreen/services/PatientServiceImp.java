@@ -72,7 +72,7 @@ public class PatientServiceImp implements IPatientService {
         updatePatient.setFirstName(patientDto.getFirstName());
         updatePatient.setLastName(patientDto.getLastName());
         updatePatient.setAddress(patientDto.getAddress());
-        updatePatient.setSex(patientDto.getSex());
+        updatePatient.setKind(patientDto.getKind());
         updatePatient.setPhone(patientDto.getPhone());
         updatePatient.setDob(patientDto.getDob());
         log.info("Service : update Patient : {} ", updatePatient.getId());
