@@ -4,6 +4,7 @@ import com.mediscreen.domain.Patient;
 import com.mediscreen.dto.PatientDto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Interface containing all the Patient's methods
@@ -26,4 +27,10 @@ public interface IPatientService extends ICrudService<PatientDto> {
      * @return true if exist
      */
     Boolean existByPatientInformation(String lastName, String firstName, LocalDate dob);
+
+    /**
+     * Find in bdd patient by last name
+     * @return the list of PatientDto
+     */
+    List<PatientDto> getPatientByLastName(String lastName);
 }

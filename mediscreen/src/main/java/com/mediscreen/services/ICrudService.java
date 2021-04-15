@@ -34,4 +34,10 @@ public interface ICrudService<T>  {
      */
     void delete(Integer id);
 
+    /**
+     * Read object in the database
+     * @param id object to read
+     */
+    T readById(Integer id);
+
 }

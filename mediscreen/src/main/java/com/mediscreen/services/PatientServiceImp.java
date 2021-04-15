@@ -38,7 +38,7 @@ public class PatientServiceImp implements IPatientService {
             throw new PatientDtoAlreadyExistException("The patient with the information entered already exists");
         }else{
             Patient patient = repository.save(patientUnJMapper.getDestination(patientDto));
-            log.info("Après : "+existByPatientInformation(patient.getLastName(),patient.getFirstName(),patient.getDob()));
+            log.info("Gnere: "+patientDto.getGender());
             log.info("Service : Patient is save in Bdd : {} ", patient.getId());
             return patientJMapper.getDestination(patient);
         }
@@ -72,7 +72,7 @@ public class PatientServiceImp implements IPatientService {
         updatePatient.setFirstName(patientDto.getFirstName());
         updatePatient.setLastName(patientDto.getLastName());
         updatePatient.setAddress(patientDto.getAddress());
-        updatePatient.setKind(patientDto.getKind());
+        updatePatient.setGender(patientDto.getGender());
         updatePatient.setPhone(patientDto.getPhone());
         updatePatient.setDob(patientDto.getDob());
         log.info("Service : update Patient : {} ", updatePatient.getId());
@@ -90,6 +90,15 @@ public class PatientServiceImp implements IPatientService {
         log.info("Service : delete patient id : {}", id);
     }
 
+    /**
+     * Check id exist, if valid return patient
+     * @param id to patient
+     */
+    @Override
+    public PatientDto readById(Integer id) {
+        return  patientJMapper.getDestination(existById(id));
+    }
+
     @Override
     public Patient existById(Integer id) {
         return repository.findById(id)
@@ -100,6 +109,18 @@ public class PatientServiceImp implements IPatientService {
     public Boolean existByPatientInformation(String lastName, String firstName, LocalDate dob) {
         return Optional.ofNullable(repository.findByLastNameAndFirstNameAndDob(lastName,firstName,dob))
                 .isPresent();
+    }
+
+    @Override
+    public List<PatientDto> getPatientByLastName(String lastName) {
+        List<PatientDto> patientDtos = new ArrayList<>();
+        repository.findByLastNameContaining(lastName)
+                .forEach(patient ->
+                {
+                    patientDtos.add(patientJMapper.getDestination(patient));
+                });
+        log.info("Service : read patients by last name: {} ", patientDtos.size());
+        return patientDtos;
     }
 
 }

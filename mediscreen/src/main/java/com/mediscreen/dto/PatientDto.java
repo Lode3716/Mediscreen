@@ -34,22 +34,22 @@ public class PatientDto {
     @NotNull(message = "Date of birthday is mandatory")
     private LocalDate dob;
     /**
-     * kind of person
+     * Gender of person
      * True = man
      * False = women
      */
-    @NotNull(message = "Kind is mandatory")
-    private Boolean kind;
+    @NotNull(message = "Gender is mandatory")
+    private Boolean gender;
 
     private String address;
 
     private String phone;
 
-    public PatientDto(String lastName, String firstName, LocalDate dob, Boolean kind, String address, String phone) {
+    public PatientDto(String lastName, String firstName, LocalDate dob, Boolean gender, String address, String phone) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.dob = dob;
-        this.kind = kind;
+        this.gender = gender;
         this.address = address;
         this.phone = phone;
     }

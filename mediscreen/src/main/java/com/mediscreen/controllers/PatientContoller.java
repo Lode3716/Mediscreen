@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Log4j2
@@ -93,5 +94,34 @@ public class PatientContoller {
         }
         log.info("DELETE : /patient/{} - SUCCESS", id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Find Patient by Id and return
+     *
+     * @param id to delete patient
+     * @return Patient
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<PatientDto> getPatient(@PathVariable("id") @NotNull Integer id) {
+        log.debug("GET : /patient/{}", id);
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.readById(id));
+        } catch (PatientDtoNotFoundException patientDtoNotFoundException) {
+            log.error("GET : /patient/{} - Not found : {}", patientDtoNotFoundException.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, patientDtoNotFoundException.getMessage());
+        }
+    }
+
+
+    /**
+     * Send PatienttDto list.
+     *
+     * @return the patient List
+     */
+    @GetMapping()
+    public ResponseEntity<List<PatientDto>> getPatientByName(@RequestParam @NotBlank String name_like) {
+        log.info("GET : patient?name_like={}",name_like);
+        return ResponseEntity.status(HttpStatus.OK).body(service.getPatientByLastName(name_like));
     }
 }

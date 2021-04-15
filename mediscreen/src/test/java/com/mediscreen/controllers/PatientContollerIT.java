@@ -59,7 +59,7 @@ class PatientContollerIT {
 
         patientDtoFail = new PatientDto("", "","400-555-6666");
 
-        patient = new Patient(patientDto.getLastName(), patientDto.getFirstName(), patientDto.getDob(), patientDto.getKind(), patientDto.getAddress(), patientDto.getPhone());
+        patient = new Patient(patientDto.getLastName(), patientDto.getFirstName(), patientDto.getDob(), patientDto.getGender(), patientDto.getAddress(), patientDto.getPhone());
         patientUpdate=new Patient("Benard", "Roger", LocalDate.of(1980, 12, 31), false, "Au club Dorothee 75550 Paris", "400-556-6666");
     }
 
@@ -194,5 +194,52 @@ class PatientContollerIT {
                 .accept(APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("There is no patient with this id ")));
+    }
+
+    @Test
+    @Tag("PatientByID")
+    @DisplayName("Given a save patient in bdd,check if list return equals 2 patients")
+    public void givenPatientById_whenGETRequestSucess_thenReturnPatientFind() throws Exception {
+        Patient save=repository.save(patient);
+
+        String url="/patient/".concat(String.valueOf(save.getId()));
+
+        mvc.perform(MockMvcRequestBuilders.get(url)
+                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.lastName").value(patient.getLastName()))
+                .andExpect(jsonPath("$.firstName").value(patient.getFirstName()))
+                .andExpect(jsonPath("$.dob").value(patient.getDob().toString()))
+                .andExpect(jsonPath("$.id").value(patient.getId()))
+                .andExpect(jsonPath("$.address").value(patient.getAddress()))
+                .andExpect(jsonPath("$.phone").value(patient.getPhone()));
+    }
+
+    @Test
+    @Tag("PatientByID")
+    @DisplayName("Given a save patient in bdd,check if list return equals 2 patients")
+    public void givenPatientById_whenGETRequestFail_thenReturnPatientNotFound() throws Exception {
+
+        String url="/patient/".concat(String.valueOf(12345));
+
+        mvc.perform(MockMvcRequestBuilders.get(url)
+                .accept(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("There is no patient with this id ")));
+    }
+
+
+    @Test
+    @Tag("PatientByName")
+    @DisplayName("Given a save patients in bdd,find by name retunr 1 patient")
+    public void givenPatientByName_whenGETRequestSucess_thenReturnPatientFind() throws Exception {
+        repository.save(patient);
+        repository.save(patientUpdate);
+
+        mvc.perform(MockMvcRequestBuilders.get("/patient")
+                .queryParam("name_like", "Gerard")
+                .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", Matchers.hasSize(1)));
     }
 }

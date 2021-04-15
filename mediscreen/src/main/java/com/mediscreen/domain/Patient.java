@@ -35,12 +35,12 @@ public class Patient implements Serializable {
     private LocalDate dob;
 
     /**
-     * kind of person
+     * Gender of person
      * True = man
      * False = women
      */
-    @Column(name = "kind")
-    private Boolean kind;
+    @Column(name = "gender")
+    private Boolean gender;
 
     /**
      * Patient address
@@ -54,11 +54,11 @@ public class Patient implements Serializable {
     @Column(name = "phone")
     private String phone;
 
-    public Patient(String lastName, String firstName, LocalDate dob, Boolean kind, String address, String phone) {
+    public Patient(String lastName, String firstName, LocalDate dob, Boolean gender, String address, String phone) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.dob = dob;
-        this.kind = kind;
+        this.gender = gender;
         this.address = address;
         this.phone = phone;
     }
