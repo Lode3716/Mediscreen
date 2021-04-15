@@ -17,7 +17,7 @@ export class Patient {
    * True = man
    * False = women
    */
-  kind: boolean;
+  gender: boolean;
   /**
    * Patient address
    */
