@@ -108,7 +108,7 @@ class PatientContollerIT {
                 .accept(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-                .andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("Kind is mandatory")
+                .andExpect(result -> assertTrue(result.getResolvedException().getMessage().contains("Gender is mandatory")
                         && result.getResolvedException().getMessage().contains("Date of birthday is mandatory")
                         && result.getResolvedException().getMessage().contains("First name is mandatory")
                         && result.getResolvedException().getMessage().contains("Last name is mandatory")));
