@@ -54,13 +54,13 @@ class PatientContollerIT {
     public void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
 
-        patientDto = new PatientDto("Gerard", "Corbien", LocalDate.of(1966, 12, 31), false, "Au club Dorothee 75000 Paris", "400-555-6666");
-        patientDtoUpdate= new PatientDto("Benard", "Roger", LocalDate.of(1980, 12, 31), false, "Au club Dorothee 75550 Paris", "400-556-6666");
+        patientDto = new PatientDto("Gerard", "Corbien", LocalDate.of(1966, 12, 31), 'M', "Au club Dorothee 75000 Paris", "400-555-6666");
+        patientDtoUpdate= new PatientDto("Benard", "Roger", LocalDate.of(1980, 12, 31), 'M', "Au club Dorothee 75550 Paris", "400-556-6666");
 
         patientDtoFail = new PatientDto("", "","400-555-6666");
 
         patient = new Patient(patientDto.getLastName(), patientDto.getFirstName(), patientDto.getDob(), patientDto.getGender(), patientDto.getAddress(), patientDto.getPhone());
-        patientUpdate=new Patient("Benard", "Roger", LocalDate.of(1980, 12, 31), false, "Au club Dorothee 75550 Paris", "400-556-6666");
+        patientUpdate=new Patient("Benard", "Roger", LocalDate.of(1980, 12, 31), 'F', "Au club Dorothee 75550 Paris", "400-556-6666");
     }
 
 

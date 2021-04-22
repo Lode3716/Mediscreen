@@ -35,17 +35,17 @@ public class PatientDto {
     private LocalDate dob;
     /**
      * Gender of person
-     * True = man
-     * False = women
+     * M = man
+     * F = women
      */
     @NotNull(message = "Gender is mandatory")
-    private Boolean gender;
+    private Character gender;
 
     private String address;
 
     private String phone;
 
-    public PatientDto(String lastName, String firstName, LocalDate dob, Boolean gender, String address, String phone) {
+    public PatientDto(String lastName, String firstName, LocalDate dob, Character gender, String address, String phone) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.dob = dob;
