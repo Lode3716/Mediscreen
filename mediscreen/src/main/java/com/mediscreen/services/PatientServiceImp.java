@@ -38,7 +38,7 @@ public class PatientServiceImp implements IPatientService {
             throw new PatientDtoAlreadyExistException("The patient with the information entered already exists");
         }else{
             Patient patient = repository.save(patientUnJMapper.getDestination(patientDto));
-            log.info("Gnere: "+patientDto.getGender());
+            log.info("Genre: "+patientDto.getGender());
             log.info("Service : Patient is save in Bdd : {} ", patient.getId());
             return patientJMapper.getDestination(patient);
         }

@@ -69,7 +69,7 @@ public class PatientContoller {
         try {
             update = service.update(id, patientDto);
         } catch (PatientDtoNotFoundException patientDtoNotFoundException) {
-            log.error("DELETE : /patient/{} - Not found : {}", patientDtoNotFoundException.getMessage());
+            log.error("PUT : /patient/{} - Not found : {}", patientDtoNotFoundException.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, patientDtoNotFoundException.getMessage());
         }
         log.info("PUT : /patient/{} - SUCCESS", id);
