@@ -20,7 +20,7 @@ import java.util.List;
 @Log4j2
 @RestController
 @RequestMapping(value = "patient")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://127.0.0.1:4200")
 public class PatientContoller {
 
     @Autowired

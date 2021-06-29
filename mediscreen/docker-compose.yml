@@ -1,0 +1,49 @@
+version: '3.3'
+services:
+  sql-db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    container_name: mediscreen-db
+    environment:
+      MYSQL_ROOT_PASSWORD: admin123
+      MYSQL_DATABASE: mediscreen
+      MYSQL_USER: patient
+      MYSQL_PASSWORD: patient
+
+
+  patients:
+    build: .
+    ports:
+      - "8081:8081"
+    container_name: patient-service
+    depends_on:
+          - sql-db
+
+  mongo-db:
+    image: mongo:4.4
+    ports:
+      - "27017:27017"
+    container_name: note-db
+
+  note:
+    build: ../../mediscreen-note/note
+    ports:
+      - "8082:8082"
+    container_name: note-service
+    depends_on:
+      - mongo-db
+
+  probability:
+    build: ../../mediscreen-probability-diabete
+    ports:
+      - "8080:8080"
+    container_name: probability-diabete
+
+  front:
+    build: ../../medicreen-front
+    ports:
+      - "4200:80"
+    container_name: front
+
+
