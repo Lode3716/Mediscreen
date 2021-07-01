@@ -6,7 +6,9 @@ by predictive analysis of patient populations.
 
 The information will allow you to install the elements necessary for the functioning of the mediscreen environment. 
 
-### Prerequisites
+### Technical
+
+#### Prerequisites
 ![Java Version](https://img.shields.io/badge/Java-15.x-red)
 ![Maven Version](https://img.shields.io/badge/Maven-3.6.3-blue)
 ![SpringBoot Version](https://img.shields.io/badge/Spring%20Boot-2.4.4-brightgreen)
@@ -15,8 +17,6 @@ The information will allow you to install the elements necessary for the functio
 ![MongoDB Version](https://img.shields.io/badge/MongoDB-4.x-green)
 ![J-Unit Version](https://img.shields.io/badge/JUnit-5.7.0-orange)
 ![Docker Version](https://img.shields.io/badge/Docker-20.10.2-cyan)
-
-### Technical
 
 Please setup the following tools: 
 
@@ -37,17 +37,17 @@ Please setup the following tools:
 * Service-probability : (https://github.com/Lode3716/mediscreen-probability-diabete)
 
 ### Build services
-
+~~~
 mvn clean intall
-
+~~~
 ### For Angular
-
+~~~
 ng build
- 
+~~~
 ### Docker image construction in project directory :
-
+~~~
 docker-compose up -d
-
+~~~
 ## Rapport test
 
 ![alt text](test_patient.png)
