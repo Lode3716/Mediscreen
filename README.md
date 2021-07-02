@@ -29,14 +29,14 @@ Please setup the following tools:
 
 ## Installation
 
-### Link to other workspace :
+### Download others workspace :
  
 * Front-end : (https://github.com/Lode3716/medicreen-front/tree/main)
 * Service-note : (https://github.com/Lode3716/note)
 * Service-patient : (https://github.com/Lode3716/Mediscreen)
 * Service-probability : (https://github.com/Lode3716/mediscreen-probability-diabete)
 
-### Build services
+### Build services with maven
 ~~~
 mvn clean intall
 ~~~
@@ -44,7 +44,9 @@ mvn clean intall
 ~~~
 ng build
 ~~~
-### Docker image construction in project directory :
+
+### Docker construction in project directory :
+
 ~~~
 docker-compose up -d
 ~~~
